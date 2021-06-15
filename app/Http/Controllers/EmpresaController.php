@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
 {
+    
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -82,16 +87,14 @@ class EmpresaController extends Controller
      * @param  \App\Models\Empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empresa $empresa)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'nome_empresa' => 'required',
-            'local' => 'required',
-            'aluguel' => 'required'
+        $empresa = Empresa::find($id);
+            $empresa->nome_empresa = $request->input('nome_empresa');
+            $empresa->local = $request->input('local');
+            $empresa->aluguel = $request->input('aluguel');
+            $empresa->save();
 
-        ]);
-
-        $empresa::update($request->all());
 
         return redirect()->route('empresas.index')
             ->with('success', 'Empresa alterda com sucesso!!!');

@@ -20,6 +20,8 @@ Route::get('/', function () {
 
 /* Rota para página empresas*/
 Auth::routes();
+
 Route::resource('empresas', EmpresaController::class);
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
